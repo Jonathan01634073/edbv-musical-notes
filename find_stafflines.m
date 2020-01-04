@@ -8,7 +8,7 @@ function [ staff_lines ] = find_stafflines( bin_image )
     %bin_image_ve = imerode(bin_image, se_line);
     %bin_image=imabsdiff(bin_image,bin_image_ve);
     se_line = strel('line', length(bin_image)*0.005, 0);
-    bin_image_se = imerode(bin_image, se_line);
+    bin_image_se = imerodecustom(bin_image, se_line);
     
     
     %DEBUGG Plot the horizontal projection
@@ -16,7 +16,7 @@ function [ staff_lines ] = find_stafflines( bin_image )
     %plot(sum(bin_image_se,2), fliplr(1:size(bin_image_se,1)));
     
     % Find locations using Horizontal projection
-    [pks, locs] = findpeaks(sum(bin_image_se,2));
+    [pks, locs] = findpeakscustom(sum(bin_image_se,2));
 
     % Remove all unrelevant peaks based on threshold
     threshhold=(max(pks)-mean(pks));
