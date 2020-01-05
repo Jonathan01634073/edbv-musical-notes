@@ -9,8 +9,8 @@ function classified_note = note_classification_main(image, line_points)
     image_bin = imbinarize(image_gray);
     image_bin = ~image_bin;
 
-    %figure(200);
-    %imshow(image_bin);
+    figure(220);
+    imshow(image_bin);
 
     vector_hor = sum(image_bin, 2);
     vector_ver = sum(image_bin, 1);
@@ -38,7 +38,7 @@ function classified_note = note_classification_main(image, line_points)
     note_location = zeros(2, 1);
     classified_note = zeros(3, 1);
     % 0.5=1/8, 2.0=1/2, 4.0=1
-    note_speed = -1;
+    note_tempo = -1;
     %check if there is no note stem
     if (contains_note_stem(note_lines_max_distance, image_bin(:,note_stem_loc), note_stem_value)==0)
         % there is no note stem
@@ -62,48 +62,52 @@ function classified_note = note_classification_main(image, line_points)
         if (symbol_class == 1)
             note_location = get_whole_note_location(vector_hor, note_line_distance, note_stem_thickness, line_points);
             note_tempo = 4.0;
+            if (contains_dot(image_bin(note_location(1):note_location(2),:)))
+                note_tempo = double(note_tempo) * 1.5;
+            end
+   
             classified_note = [note_location(1); note_location(2); note_tempo];
         end
         return;
     end
 
     note_location = get_note_location(image_bin, vector_hor, note_line_distance, note_stem_thickness, line_points, 1);
-    
 
     % check if it is faster than 1/4  by checking if there is a point where the
     % value in vector_hor is higher than the stem thickness but is not the note
     % blob
     % this is obviously very vulnerable to clutter and will throw false
     % positives if there is any clutter
+    % flase positives are cleaned up later, by flag counting
     faster_than_quarter = false;
     if (has_clutter(vector_hor, note_stem_thickness, line_points, note_location))
         faster_than_quarter = true;
     end
 
-
     if (~faster_than_quarter)
         %note is 1/2 or 1/4
         if (is_half_note(vector_hor, note_location, note_stem_thickness, line_points))
-            note_speed = 2;
-            classified_note = [note_location(1); note_location(2); note_speed];
+            note_tempo = 2.0;
+            if (contains_dot(image_bin(note_location(1):note_location(2),:)))
+                note_tempo = double(note_tempo) * 1.5;
+            end
+            classified_note = [note_location(1); note_location(2); note_tempo];
+            return;
+        else 
+            note_tempo = 1.0;
+            if (contains_dot(image_bin(note_location(1):note_location(2),:)))
+                note_tempo = double(note_tempo) * 1.5;
+            end
+            classified_note = [note_location(1); note_location(2); note_tempo];
             return;
         end
-        note_speed = 3;
-        classified_note = [note_location(1); note_location(2); note_speed];
-        return;
+        
     end
-
-    % note is confirmed faster than 1/4
-    % check if it is connected to out-of-scope notes
-    side_stem_vec = zeros(length(vector_hor));
     
     if (vector_ver(1) > min_ver_pixels)
-        %macgyver
-        if (note_stem_loc(1) == 1)
-            side_stem_vec = image_bin(:, note_stem_loc(1));
-        else
-            side_stem_vec = image_bin(:, note_stem_loc(1)-1);
-        end
+        % there is a left connection to another note
+        % (if there is not we can just count on the right side of the stem)
+        side_stem_vec = image_bin(:, note_stem_loc(1)-1);
     else
         side_stem_vec = image_bin(:, note_stem_loc(length(note_stem_loc))+1);
     end
@@ -111,10 +115,14 @@ function classified_note = note_classification_main(image, line_points)
     % go along side of stem and count black spots that are not the note or note
     % lines
     % this would seem very improvised again, but I believe it will work fine
-    note_speed = get_connected_spots(side_stem_vec, line_points, note_location) + 3;
-
-
-    classified_note = [note_location(1); note_location(2); note_speed];
+    flag_amount = get_connected_spots(side_stem_vec, line_points, note_location);
+    % this conveniently returns 1 if there are no flags
+	note_tempo = power(0.5, flag_amount);
+	if (contains_dot(image_bin(note_location(1):note_location(2),:)))
+        note_tempo = double(note_tempo) * 1.5;
+	end
+ 
+    classified_note = [note_location(1); note_location(2); note_tempo];
 end
 
 

@@ -31,16 +31,12 @@ function blob_loc = get_note_location(bin_img, vector_hor, note_line_distance, n
                 blob_loc(2) = loc_2;
                 return;
             elseif (is_correct_width(bin_img(loc_1:loc_2, :), note_head_width, spot_length))
-                figure(221);
-                imshow(bin_img(loc_1:loc_2, :));
                 blob_loc(1) = loc_1;
                 blob_loc(2) = loc_2;
                 return;
             end
         end
     end
-    figure(222);
-    imshow(bin_img);
     if (two_dim == 1)
         % we didnt find anything, means this is a half note
         blob_loc = get_note_location(bin_img, vector_hor, note_line_distance, note_stem_thickness, line_points, 0);
