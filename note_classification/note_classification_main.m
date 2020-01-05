@@ -9,12 +9,13 @@ function classified_note = note_classification_main(image, line_points)
     image_bin = imbinarize(image_gray);
     image_bin = ~image_bin;
 
-    %figure(200)
+    %figure(200);
     %imshow(image_bin);
 
     vector_hor = sum(image_bin, 2);
     vector_ver = sum(image_bin, 1);
 
+    
     %line_points = get_line_points(vector_hor, vector_ver);
     % matrix with start and end point of each note line
     % dimensions: 5,2
@@ -36,24 +37,37 @@ function classified_note = note_classification_main(image, line_points)
 
     note_location = zeros(2, 1);
     classified_note = zeros(3, 1);
-    % 1 = whole, 2 = half,...
-    note_speed = 0;
+    % 0.5=1/8, 2.0=1/2, 4.0=1
+    note_speed = -1;
     %check if there is no note stem
-    if (note_stem_value < (note_lines_max_distance / 1.5))
+    if (contains_note_stem(note_lines_max_distance, image_bin(:,note_stem_loc), note_stem_value)==0)
         % there is no note stem
         % -> special symbol or whole note
-        note_location = get_note_location(vector_hor, note_line_distance, note_stem_thickness, line_points);
-        if (note_location == [0, 0])
-            % special sign
-            return;
+        
+        % classify by shape
+        % output overall symbols: location of note=full note, 1= full pause, 2=half pause, 3=quarter pause,
+        % 4=eighth pause, 5=vorzeichen
+        
+        % output by function: 1=full note, 2=full/half pause, 3=quarter pause,
+        % 4=eighth pause, 5=vorzeichen
+        symbol_class = symbol_classification(vector_hor, vector_ver, note_line_distance);
+        
+        % if it's full/half pause or vorzeichen, classify again
+        if (symbol_class == 2)
+            symbol_class = pause_classification(vector_hor, line_points);
         end
-        % whole note
-        note_speed = 1;
-        classified_note = [note_location(1); note_location(2); note_speed];
+        classified_note = symbol_class;
+        
+        % if it's whole note, get location
+        if (symbol_class == 1)
+            note_location = get_whole_note_location(vector_hor, note_line_distance, note_stem_thickness, line_points);
+            note_tempo = 4.0;
+            classified_note = [note_location(1); note_location(2); note_tempo];
+        end
         return;
     end
 
-    note_location = get_note_location(vector_hor, note_line_distance, note_stem_thickness, line_points);
+    note_location = get_note_location(image_bin, vector_hor, note_line_distance, note_stem_thickness, line_points, 1);
     
 
     % check if it is faster than 1/4  by checking if there is a point where the

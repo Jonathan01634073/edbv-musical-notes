@@ -43,26 +43,29 @@ function main
     
     line_points = find(vector_hor > 900);
     
-    for ii=1:size(takt_list, 2)
+    for i=1:size(takt_list, 2)
         % inside a takt
-        image_list = takt_list{1,ii};
-        for jj=1:size(image_list, 2)
+        image_list = takt_list{1,i};
+        for j=1:size(image_list, 2)
             % inside a single note
-            note = note_classification_main(image_list{1, jj}, line_points);
+            note = note_classification_main(image_list{1, j}, line_points);
+            if (length(note)==1)
+                continue;
+            end
             % row index of note start in image
             fst = note(1);
             % row index of note end in image
             snd = note(2);
             % 1 = whole, 2 = half
             speed = note(3);
-            fst
-            snd
-            speed
-            line_points
-            img = image_list{1, jj};
-            img(fst:snd, :, 1) = 150;
-            figure(jj)
-            imshow(img);
+            img = image_list{1, j};
+            if (snd>0 && snd>0)
+                img(fst:snd, :, 1) = 150;
+                image_list{1, j} = img;
+                %figure(j*15);
+                %imshow(img);
+            end
         end
+        print_image_list(image_list, i+15);
     end
 end
