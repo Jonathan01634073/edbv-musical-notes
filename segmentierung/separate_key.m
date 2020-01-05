@@ -13,7 +13,7 @@ function result = separate_key(image, bottom_value)
     
     
     for ii=1:size(img,2)
-        if (proj(ii) < 15 && symbol_count == 0)
+        if (proj(ii) < bottom_value+10 && symbol_count == 0)
             if(sum(proj(1:1,symbol_beginning:ii)) > 250-bottom_value)
                 image_frag = image{1,1}(1:size(img, 1),symbol_beginning:ii,1:3);
                 
