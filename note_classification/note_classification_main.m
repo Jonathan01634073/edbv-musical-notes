@@ -72,7 +72,11 @@ function classified_note = note_classification_main(image, line_points)
     end
 
     note_location = get_note_location(image_bin, vector_hor, note_line_distance, note_stem_thickness, line_points, 1);
-
+    if (note_location == false(2))
+        % something went wrong 
+        classified_note = [-1; -1; -1;];
+        return;
+    end
     % check if it is faster than 1/4  by checking if there is a point where the
     % value in vector_hor is higher than the stem thickness but is not the note
     % blob
