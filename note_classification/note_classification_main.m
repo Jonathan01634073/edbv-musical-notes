@@ -125,9 +125,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
     flag_amount = max(flag_amount_left, flag_amount_right);
     % this conveniently returns 1 if there are no flags:
 	note_tempo = power(0.5, flag_amount);
-	if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-        %%note_tempo = double(note_tempo) * 1.5;
-	end
+	
  
     classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
 end
