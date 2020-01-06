@@ -6,7 +6,7 @@ function result = separate_notes(image, bottom_value)
     proj = sum(img, 1);
     frag_list = {};
     
-    bar_list = {}
+    bar_list = {};
     
     %bar(proj);
     %disp(proj);

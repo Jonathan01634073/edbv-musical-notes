@@ -8,7 +8,7 @@ function result = find_next_note(img, proj, current_idx, cut_width, cut_margin, 
             cnt1 = 0;
                 for jj=max(1,ii-6):min(ii, size(proj, 2))
                     if(proj(jj) >= bottom_value + 5)
-                        cnt1 = cnt1 + 1
+                        cnt1 = cnt1 + 1;
                     end
                 end
                 if(cnt1 >= 5)
@@ -18,7 +18,7 @@ function result = find_next_note(img, proj, current_idx, cut_width, cut_margin, 
                 cnt2 = 0;
                 for jj=max(1,ii):min(ii+6, size(proj, 2))
                     if(proj(jj) >= bottom_value + 5)
-                        cnt2 = cnt2 + 1
+                        cnt2 = cnt2 + 1;
                     end
                 end
                 if(cnt2 >= 5)
