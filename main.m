@@ -18,9 +18,9 @@ function main
         sub_imgs = split_images(original_image, split_pos);
     end
     
-    test_img = sub_imgs{1,1};
-    img_width = size(test_img,2);
-    test_img = imresize(test_img, (1150/img_width));
+    next_img = sub_imgs{1,6};
+    img_width = size(next_img,2);
+    test_img = imresize(next_img, (1150/img_width));
     %print_image_list(sub_imgs,22);
     figure(22);
     imshow(test_img);
