@@ -1,31 +1,25 @@
-# edbv-musical-notes
+# musical-note-recognition
 
-implementierung aufteilung:
+Dieses Programm erhält ein Bild einer Notation als Input und gibt die enthaltene musikalische Information im Midi-Format wieder. 
 
-{
-input: bild;
-schwellwertoperation;
-keine logik;
+## Getting Started
 
-geometr transformation;
-keine logik;
-} -> Moritz
+Um das Programm zu starten muss lediglich die main.m methode in Matlab ausgeführt werden. Daraufhin öffnet sich ein Dateifenster in welchem ein entsprechendes Bild einer Notation ausgewählt werden kann. Hierfür empfiehlt sich eines der bereitgestellten Testbilder. Falls nach dem Öffnen des Dateifenster keine Bilder angezeigt werden, kann and der rechten unteren Ecke des Popups von .JPG auf alle Dateien umgestellt werden. 
 
-{
-input: binärbild;
-projektion zeilen (horizontal);
--> teilung des bildes;
-} -> Eli
+## Ground Truth
 
-{
-input: notenzeile;
-projektion der einzelnen noten (vertikal);
--> matrix mit einzelner note;
-}-> Adam
+Die Bereitgestellten Testdateien enthalten 10 unterschiedliche Notationen von Liedern, sowie deren korrekte Klassifizierung nach dem [Midi-Format](https://de.wikipedia.org/wiki/Musical_Instrument_Digital_Interface). 
 
-{
-input: einzelne Note;
-projektion für tonhöhe (horizontal);
--> speicherung der höhe MIDI style (in richtiger reihenfolge);
--> output;
-} -> Jonathan
+## Built With
+
+[Matlab](https://de.mathworks.com/products/matlab.html)
+
+## Authors
+
+Elias Kristmann 
+Moritz Muth
+Adam Sznajder 
+Jonathan Leber
+Eduardo Alirio Andres Max Arreaza Bauer
+
+Project for LVA (86.841) Einführung in die digitale Bildverarbeitung, WS 2019/20

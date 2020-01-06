@@ -3,18 +3,7 @@ function main
     image = imread(fullfile(path, filename));
     original_image = image;
     
-    if ~ismatrix(image)
-        image = rgb2gray(image);
-    end
-    
-    
-    % find angle at which the image was taken
-    %angle = horizonFFT(image, 0.1);
-    %angle = mod(45+angle,90)-45;
-    % uses this angle to straighten the image
-    %res = imrotate_white(image, -angle);
-    % convert image to black and white values
-    bin_image =1-imbinarize(image, 0.9);
+    bin_image = processImage(image);
 
     imshow(bin_image);
 

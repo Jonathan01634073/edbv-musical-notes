@@ -28,7 +28,7 @@ function result = separate_key(image, bottom_value)
     rest = image{1,1}(1:size(img, 1),symbol_beginning:size(img,2),1:3);
     
     
-    print_image_list(symbol_list, 7);
+    % print_image_list(symbol_list, 7);
     result.key = symbol_list;
     result.rest = rest;
     
