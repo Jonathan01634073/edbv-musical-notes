@@ -28,8 +28,6 @@ function [ staff_lines ] = find_stafflines( bin_image )
     pks_tresh = pks(pks~=0);
     locs_tresh = locs(locs~=0);
     staff_lines = [];
-    
-    % Classification of stafflines clusters
    
       staff_lines = locs_tresh;
      if mod(length(staff_lines), 5) ~= 0   

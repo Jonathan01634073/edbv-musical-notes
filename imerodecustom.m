@@ -1,16 +1,16 @@
-function [result] = imerodecustom(mat,line)
-%IMERODECUSTOM erodes image with an object
-%   Detailed explanation goes here
+function [result] = imerodecustom(mat,mask)
+%IMERODECUSTOM erodes image with a mask
+% only pixels where the mask fits stay
 
-line=getnhood(line);
-m=floor(size(line,1)/2);
-n=floor(size(line,2)/2);
+mask=getnhood(mask);
+m=floor(size(mask,1)/2);
+n=floor(size(mask,2)/2);
 pad=padarray(mat,[m n],1);
 result=false(size(mat));
 for i=1:size(pad,1)-(2*m)
     for j=1:size(pad,2)-(2*n)
         Temp=pad(i:i+(2*m),j:j+(2*n));
-        result(i,j)=min(min(Temp-line));
+        result(i,j)=min(min(Temp-mask));
     end
 end
 result=~result;
