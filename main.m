@@ -18,7 +18,10 @@ function main
         sub_imgs = split_images(original_image, split_pos);
     end
     
-    test_img = sub_imgs{1,1};
+    midi_pitches = [];
+    %inside singel subimage
+    for index=1:size(sub_imgs,2)
+    test_img = sub_imgs{1,index};
     img_width = size(test_img,2);
     test_img = imresize(test_img, (1150/img_width));
     %print_image_list(sub_imgs,22);
@@ -35,41 +38,41 @@ function main
     vector_hor = sum(image_binn, 2);
     
     line_points = find_stafflines(image_binn);
-    midi_pitches = [];
-    for i=1:size(takt_list, 2)
-        % inside a takt
-        image_list = takt_list{1,i};
-        for j=1:size(image_list, 2)
-            % inside a single note
-            note = note_classification_main(image_list{1, j}, line_points, 1);
-            if (length(note) == 2)
-                speed = note(1);
-                if (speed == 0)
-                    % vorzeichen, we skip
-                    continue;
-                end
-                midi_pitch = note(2);
-                midi_pitches = [midi_pitches; midi_pitch speed];
-            else
-                fst = note(1);
-                snd = note(2);
-                % 1 = whole, 2 = half
-                speed = note(3);
-                midi_pitch = note(4);
-                midi_pitches = [midi_pitches; midi_pitch speed];
-                img = image_list{1, j};
-                if (snd>0 && snd>0)
-                    img(max(fst, 1):max(snd, 1), :, 1) = 150;
-                    if (length(note)==5)
-                        img(:, note(5):note(5)+1, 2) = 150;
+        for i=1:size(takt_list, 2)
+            % inside a takt
+            image_list = takt_list{1,i};
+            for j=1:size(image_list, 2)
+                % inside a single note
+                note = note_classification_main(image_list{1, j}, line_points, 1);
+                if (length(note) == 2)
+                    speed = note(1);
+                    if (speed == 0)
+                        % vorzeichen, we skip
+                        continue;
                     end
-                    image_list{1, j} = img;
-                    %figure(j*15);
-                    %imshow(img);
+                    midi_pitch = note(2);
+                    midi_pitches = [midi_pitches; midi_pitch speed];
+                else
+                    fst = note(1);
+                    snd = note(2);
+                    % 1 = whole, 2 = half
+                    speed = note(3);
+                    midi_pitch = note(4);
+                    midi_pitches = [midi_pitches; midi_pitch speed];
+                    img = image_list{1, j};
+                    if (snd>0 && snd>0)
+                        img(max(fst, 1):max(snd, 1), :, 1) = 150;
+                        if (length(note)==5)
+                            img(:, note(5):note(5)+1, 2) = 150;
+                        end
+                        image_list{1, j} = img;
+                        %figure(j*15);
+                        %imshow(img);
+                    end
                 end
             end
+            print_image_list(image_list, i+15);
         end
-        print_image_list(image_list, i+15);
     end
     midi_pitches
 end
