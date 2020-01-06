@@ -9,7 +9,7 @@ length(m)
 while i<length(m)
     if m(i)>m(i-1)
         j=1;
-        while m(i+j)==m(i)
+        while m(i+j)==m(i) && i+j<length(m)
            j=j+1;     
         end
         if m(i+j)<m(i)
