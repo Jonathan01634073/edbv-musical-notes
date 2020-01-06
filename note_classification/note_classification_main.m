@@ -23,6 +23,14 @@ function classified_note = note_classification_main(image, line_points, is_trebl
     % minimum pixel amount when projecting vertically
     min_ver_pixels = length(line_points);
     % distance between first and last note line
+    if (isempty(line_points))
+        classified_note = 0;
+        return;
+    end
+    if (size(line_points) == 0)
+        classified_note = 0;
+        return;
+    end
     note_lines_max_distance = line_points(size(line_points)) - line_points(1);
     note_lines_max_distance = note_lines_max_distance(1);
     % locations of the note stem if it exists

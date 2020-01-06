@@ -51,7 +51,7 @@ function main
                     end
                     midi_pitch = note(2);
                     midi_pitches = [midi_pitches; midi_pitch speed];
-                else
+                elseif (length(note) == 5)
                     fst = note(1);
                     snd = note(2);
                     % 1 = whole, 2 = half
