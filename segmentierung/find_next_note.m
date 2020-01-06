@@ -77,7 +77,7 @@ function result = find_next_note(img, proj, current_idx, cut_width, cut_margin, 
             end
             
             if(is_full_note == true)
-                for jj = ii - cut_width+cut_margin:ii+cut_width+cut_margin
+                for jj = max(1,ii - cut_width+cut_margin):min(ii+cut_width+cut_margin, size(proj, 2))
                     if (proj(jj) >= 24)
                         is_full_note = false;
                     end
