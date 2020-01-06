@@ -22,8 +22,8 @@ function main
     img_width = size(next_img,2);
     test_img = imresize(next_img, (1150/img_width));
     %print_image_list(sub_imgs,22);
-    figure(22);
-    imshow(test_img);
+    %figure(22);
+    %imshow(test_img);
     
     takt_list = decompose(test_img, 1);
     
