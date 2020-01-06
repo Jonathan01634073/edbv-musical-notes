@@ -19,7 +19,7 @@ function [ staff_lines ] = find_stafflines( bin_image )
     [pks, locs] = findpeakscustom(sum(bin_image_se,2));
 
     % Remove all unrelevant peaks based on threshold
-    threshhold=(max(pks)-mean(pks));
+    threshhold=(max(pks)-mean(pks))*2/3;
     tresh = pks > threshhold;
     locs = locs .* tresh;
     pks = pks .* tresh;

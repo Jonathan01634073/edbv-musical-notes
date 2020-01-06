@@ -140,9 +140,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
     flag_amount = get_connected_spots(side_stem_vec, line_points, note_location);
     % this conveniently returns 1 if there are no flags
 	note_tempo = power(0.5, flag_amount);
-	if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-        %%note_tempo = double(note_tempo) * 1.5;
-	end
+	
  
     midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
     classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];

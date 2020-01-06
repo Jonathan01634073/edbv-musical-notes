@@ -18,7 +18,7 @@ function main
         sub_imgs = split_images(original_image, split_pos);
     end
     
-    test_img = sub_imgs{1,1};
+    test_img = sub_imgs{1,5};
     %print_image_list(sub_imgs,22);
     
     takt_list = decompose(test_img, 1);
@@ -30,7 +30,7 @@ function main
     image_binn = ~image_binn;
     vector_hor = sum(image_binn, 2);
     
-    line_points = find(vector_hor > 900);
+    line_points = find_stafflines(image_binn);
     midi_pitches = [];
     for i=1:size(takt_list, 2)
         % inside a takt
