@@ -30,7 +30,7 @@ function main
     image_binn = ~image_binn;
     vector_hor = sum(image_binn, 2);
     
-    line_points = find(vector_hor > 900);
+    line_points = find_stafflines(image_binn);
     midi_pitches = [];
     for i=1:size(takt_list, 2)
         % inside a takt
