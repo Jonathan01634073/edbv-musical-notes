@@ -33,9 +33,15 @@ function main
     line_points = find_stafflines(image_binn);
     midi_pitches = [];
     for i=1:size(takt_list, 2)
+        if (i~=2)
+            continue;
+        end
         % inside a takt
         image_list = takt_list{1,i};
         for j=1:size(image_list, 2)
+            if (j~=2)
+                continue;
+            end
             % inside a single note
             note = note_classification_main(image_list{1, j}, line_points, 1);
             if (length(note) == 2)
@@ -60,8 +66,10 @@ function main
                         img(:, note(5):note(5)+1, 2) = 150;
                     end
                     image_list{1, j} = img;
-                    %figure(j*15);
-                    %imshow(img);
+                    figure(j*15);
+                    imshow(img);
+                    midi_pitch
+                    speed
                 end
             end
         end

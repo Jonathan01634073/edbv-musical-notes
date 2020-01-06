@@ -5,8 +5,8 @@ function connected_spots = get_connected_spots(side_stem_vec, line_points, note_
         if (ismember(i, line_points))
             continue;
         end
-        half_note_dist = note_location(2) - note_location(1);
-        if ((i >= note_location(1)-half_note_dist) && (i <= note_location(2))+half_note_dist)
+        half_note_dist = ceil((note_location(2) - note_location(1))/2);
+        if ((i >= (note_location(1)-half_note_dist)) && (i <= (note_location(2))+half_note_dist))
             continue;
         end
         if (side_stem_vec(i))
