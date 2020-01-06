@@ -1,4 +1,6 @@
-function fft = computeFFT(image, height, width)
+function fft = computeFFT(image)
+    [height, width] = size(image);
+
     wM = zeros(height, height);
     wN = zeros(width, width);
     

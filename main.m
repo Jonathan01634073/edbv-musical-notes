@@ -31,7 +31,7 @@ function main
     vector_hor = sum(image_binn, 2);
     
     line_points = find(vector_hor > 900);
-    
+    midi_pitches = [];
     for i=1:size(takt_list, 2)
         % inside a takt
         image_list = takt_list{1,i};
@@ -48,6 +48,7 @@ function main
             % 1 = whole, 2 = half
             speed = note(3);
             midi_pitch = note(4);
+            midi_pitches = [midi_pitches; midi_pitch speed];
             img = image_list{1, j};
             if (snd>0 && snd>0)
                 img(max(fst, 1):max(snd, 1), :, 1) = 150;
@@ -57,8 +58,10 @@ function main
                 image_list{1, j} = img;
                 %figure(j*15);
                 %imshow(img);
+                
             end
         end
         print_image_list(image_list, i+15);
     end
+    midi_pitches
 end

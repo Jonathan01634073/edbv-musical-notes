@@ -1,25 +1,15 @@
 function res = processImage(image)
-    image = image(:,:,1);
+    
+    res = padImage(image);
 
-    padded = padImage(image);
+    res = computeFFT(res);
+    
+    res = shiftFFT(res);
 
-    [height, width] = size(padded);
+    res = computeAngle(image, res, 0.1);
 
-    fft = computeFFT(padded, height, width);
+    res = computeOrientation(res);
 
-    res = shiftFFT(fft, height, width);
-
-    res = log(abs(res) + 1);
-
-    angle = computeAngle(res, 0.1);
-
-    res = rotateImage(image, -angle); % todo
-
-    angle = computeOrientation(image);
-
-    if angle == 180
-        res = rotate(res, 2);
-    end
-
-    res = binarize(res, 0.7);
+    res = binarize(res, 0.9);
+    
 end

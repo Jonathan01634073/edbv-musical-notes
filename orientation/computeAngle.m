@@ -1,4 +1,4 @@
-function angle = computeAngle(fft, precision)
+function res = computeAngle(image, fft, precision)
     maxsize = max(size(fft));
     
     center = ceil((maxsize+1)/2);
@@ -22,4 +22,6 @@ function angle = computeAngle(fft, precision)
     [~, position] = max(score);
     angle = (position-1)*precision;
     angle = mod(45+angle,90)-45;
+    
+    res = imRotate(image, angle);
 end

@@ -53,7 +53,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
             note_location = get_whole_note_location(vector_hor, note_line_distance, note_stem_thickness, line_points);
             note_tempo = 4.0;
             if (contains_dot(image_bin(max(note_location(1), 1):max(note_location(2), 1),:)))
-                note_tempo = double(note_tempo) * 1.5;
+                %%note_tempo = double(note_tempo) * 1.5;
             end
             midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
             classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch];
@@ -109,7 +109,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
         if (is_half_note(vector_hor, note_location, note_stem_thickness, line_points))
             note_tempo = 2.0;
             if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-                note_tempo = double(note_tempo) * 1.5;
+                %%note_tempo = double(note_tempo) * 1.5;
             end
             midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
             classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
@@ -117,7 +117,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
         else 
             note_tempo = 1.0;
             if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-                note_tempo = double(note_tempo) * 1.5;
+                %%note_tempo = double(note_tempo) * 1.5;
             end
             midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
             classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
@@ -141,7 +141,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
     % this conveniently returns 1 if there are no flags
 	note_tempo = power(0.5, flag_amount);
 	if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-        note_tempo = double(note_tempo) * 1.5;
+        %%note_tempo = double(note_tempo) * 1.5;
 	end
  
     midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);

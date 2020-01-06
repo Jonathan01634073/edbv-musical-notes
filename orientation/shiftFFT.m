@@ -1,4 +1,6 @@
-function res = shiftFFT(image, height, width)
+function res = shiftFFT(image)
+    [height, width] = size(image);
+    
     halfHeight = floor(height / 2);
     halfWidth = floor(width / 2);
     
@@ -8,4 +10,6 @@ function res = shiftFFT(image, height, width)
     fourthQuadrant = image(halfHeight:end, halfWidth:end);
     
     res = [fourthQuadrant thirdQuadrant; secondQuadrant firstQuadrant];
+    
+    res = log(abs(res) + 1);
 end
