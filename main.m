@@ -1,5 +1,5 @@
 function main
-    [filename, path] = uigetfile(fullfile(pwd,'*.jpg')) ;
+    [filename, path] = uigetfile(fullfile(pwd,'*.jpg'));
     image = imread(fullfile(path, filename));
     original_image = image;
     
@@ -68,4 +68,7 @@ function main
         print_image_list(image_list, i+15);
     end
     midi_pitches
+    out_filename = 'output.csv';
+    writematrix(midi_pitches,out_filename,'Delimiter',';');
+    
 end

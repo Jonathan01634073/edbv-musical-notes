@@ -115,10 +115,10 @@ function classified_note = note_classification_main(image, line_points, is_trebl
         % (if there is not we can just count on the right side of the stem)
         side_stem_vec = image_bin(:, note_stem_loc(1)-1);
         flag_amount_left = get_connected_spots(side_stem_vec, line_points, note_location);
-    else
-        side_stem_vec = image_bin(:, note_stem_loc(length(note_stem_loc))+1);
-        flag_amount_right = get_connected_spots(side_stem_vec, line_points, note_location);
     end
+    
+    side_stem_vec = image_bin(:, note_stem_loc(length(note_stem_loc))+1);
+    flag_amount_right = get_connected_spots(side_stem_vec, line_points, note_location);
 
     % go along side of stem and count black spots that are not the note or note
     % lines
