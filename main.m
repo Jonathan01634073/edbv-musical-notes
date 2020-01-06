@@ -70,7 +70,7 @@ function main
                     end
                 end
             end
-            print_image_list(image_list, i+15);
+            print_image_list(image_list, index* 10 + i+15);
         end
     end
     midi_pitches
