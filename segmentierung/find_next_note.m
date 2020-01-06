@@ -37,8 +37,10 @@ function result = find_next_note(img, proj, current_idx, cut_width, cut_margin, 
             is_cross = false;
             second_line = -1;
             for jj=(ii-6):(ii-1)
-                if(abs(proj(ii) - proj(jj)) < 3)
-                    second_line = jj;
+                if(jj >= 1 && ii >= 1)
+                    if(abs(proj(ii) - proj(jj)) < 3)
+                        second_line = jj;
+                    end
                 end
             end
             
