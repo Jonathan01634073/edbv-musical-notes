@@ -30,7 +30,7 @@ function blob_loc = get_note_location(bin_img, vector_hor, note_line_distance, n
                 blob_loc(1) = loc_1;
                 blob_loc(2) = loc_2;
                 return;
-            elseif (is_correct_width(bin_img(loc_1:loc_2, :), note_head_width, spot_length))
+            elseif (is_correct_width(bin_img(max(loc_1, 1):max(loc_2, 1), :), note_head_width, spot_length))
                 blob_loc(1) = loc_1;
                 blob_loc(2) = loc_2;
                 return;

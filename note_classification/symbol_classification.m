@@ -6,7 +6,7 @@ function symbol_class = symbol_classification(vector_hor, vector_ver, line_dista
     symbol_class = classify_shape(shape_ratio);
     if (symbol_class == 3)
         if (line_distance*3 > rows)
-            symbol_class =5;
+            symbol_class = 5;
         end
     end
     % output: 1=full note, 2=full/half pause, 3=quarter pause,

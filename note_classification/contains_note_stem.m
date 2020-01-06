@@ -1,9 +1,8 @@
 function contains_stem = contains_note_stem(note_lines_distance, note_stem_vec, note_stem_value)
 % checks if there is a note stem in the picture according to note_lines_distance
     min_length = note_lines_distance*0.7;
-    max_length = note_lines_distance*1.5;
     contains_stem = 0;
-    if (note_stem_value < min_length || note_stem_value > max_length)
+    if (note_stem_value < min_length)
         return;
     end
     
