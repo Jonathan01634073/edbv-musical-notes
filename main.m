@@ -17,7 +17,6 @@ function main
         % Split into subimages
         sub_imgs = split_images(original_image, split_pos);
     end
-    
 
     midi_pitches = [];
     %inside singel subimage
@@ -25,7 +24,9 @@ function main
     test_img = sub_imgs{1,index};
     img_width = size(test_img,2);
     test_img = imresize(test_img, (1150/img_width));
-    
+    %print_image_list(sub_imgs,22);
+    %figure(22);
+    %imshow(test_img);
     takt_list = decompose(test_img, 1);
     
     % TODO FIX: THIS ONLY WORKS WITH THIS IMAGE AS 900 is an arbitrary

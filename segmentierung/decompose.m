@@ -4,7 +4,7 @@ function result = decompose(image, line_count)
     takt_separated = result.takt_list;
     bottom_value = result.bottom_value;
     
-    print_image_list(takt_separated, 6);
+    %print_image_list(takt_separated, 6);
 
     takt_list = {};
 
