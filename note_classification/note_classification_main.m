@@ -93,19 +93,9 @@ function classified_note = note_classification_main(image, line_points, is_trebl
         classified_note = [-1; -1; -1; -1; note_stem_loc(1)];
         return;
     end
-    % check if it is faster than 1/4  by checking if there is a point where the
-    % value in vector_hor is higher than the stem thickness but is not the note
-    % blob
-    % this is obviously very vulnerable to clutter and will throw false
-    % positives if there is any clutter
-    % flase positives are cleaned up later, by flag counting
-    faster_than_quarter = false;
-    if (has_clutter(vector_hor, note_stem_thickness, line_points, note_location))
-        faster_than_quarter = true;
-    end
-
-    if (~faster_than_quarter)
-        %note is 1/2 or 1/4
+    
+    
+        %note is 1/2
         if (is_half_note(vector_hor, note_location, note_stem_thickness, line_points))
             note_tempo = 2.0;
             if (contains_dot(image_bin(note_location(1):note_location(2),:)))
@@ -114,37 +104,31 @@ function classified_note = note_classification_main(image, line_points, is_trebl
             midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
             classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
             return;
-        else 
-            note_tempo = 1.0;
-            if (contains_dot(image_bin(note_location(1):note_location(2),:)))
-                %%note_tempo = double(note_tempo) * 1.5;
-            end
-            midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
-            classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
-            return;
         end
-        
-    end
     
+    midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
+    
+    flag_amount_left = 0;
+    flag_amount_right = 0;
     if (vector_ver(1) > min_ver_pixels)
         % there is a left connection to another note
         % (if there is not we can just count on the right side of the stem)
         side_stem_vec = image_bin(:, note_stem_loc(1)-1);
+        flag_amount_left = get_connected_spots(side_stem_vec, line_points, note_location);
     else
         side_stem_vec = image_bin(:, note_stem_loc(length(note_stem_loc))+1);
+        flag_amount_right = get_connected_spots(side_stem_vec, line_points, note_location);
     end
 
     % go along side of stem and count black spots that are not the note or note
     % lines
-    % this would seem very improvised again, but I believe it will work fine
-    flag_amount = get_connected_spots(side_stem_vec, line_points, note_location);
-    % this conveniently returns 1 if there are no flags
+    flag_amount = max(flag_amount_left, flag_amount_right);
+    % this conveniently returns 1 if there are no flags:
 	note_tempo = power(0.5, flag_amount);
 	if (contains_dot(image_bin(note_location(1):note_location(2),:)))
         %%note_tempo = double(note_tempo) * 1.5;
 	end
  
-    midi_pitch = get_midi_pitch(line_points, note_line_distance, note_location, is_treble_clef);
     classified_note = [note_location(1); note_location(2); note_tempo; midi_pitch; note_stem_loc(1)];
 end
 
