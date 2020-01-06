@@ -77,7 +77,7 @@ function classified_note = note_classification_main(image, line_points, is_trebl
             case 4
                 note_tempo = 0.5;
         end
-        classified_note = [symbol_class; note_tempo];
+        classified_note = [note_tempo; symbol_class];
         return;
     end
 
